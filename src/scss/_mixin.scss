@@ -1,0 +1,155 @@
+@use 'sass:math';
+@use 'sass:list';
+@use 'sass:meta';
+@use 'sass:map';
+@use 'sass:selector';
+@use 'sass:string';
+@use 'sass:color';
+@use './variable' as vars;
+
+// $mqLengs: list.length($mediaQuires);
+$mediaQuires: (
+	wide: "(min-width: #{vars.$desktop}) and (max-width: #{vars.$wide})",
+	desktop: "(min-width: #{vars.$tablet}) and (max-width: #{vars.$desktop - 1px})",
+	tablet: "(min-width: #{vars.$mobile}) and (max-width: #{vars.$tablet - 1px})",
+	mobile: "(max-width: #{vars.$mobile})",
+	s-mobile: "(max-width: #{vars.$s-mobile})"
+);
+
+@mixin wide {
+	@media (max-width: vars.$wide) {
+		@content;
+	}
+}
+@mixin desktop {
+	@media (max-width: #{vars.$desktop - 1px}) {
+		@content;
+	}
+}
+@mixin tablet {
+	@media (max-width: #{vars.$tablet - 1px}) {
+		@content;
+	}
+}
+@mixin not-mobile {
+	@media (min-width: vars.$mobile) {
+		@content;
+	}
+}
+@mixin mobile {
+	@media (max-width: #{vars.$mobile - 1px}) {
+		@content;
+	}
+}
+@mixin landscape {
+	@media (max-width: #{vars.$mobile - 1px}) and (orientation: landscape) {
+		@content;
+	}
+}
+@mixin s-mobile {
+	@media (max-width: vars.$s-mobile) {
+		@content;
+	}
+}
+@mixin xs-mobile {
+	@media (max-width: vars.$xs-mobile) {
+		@content;
+	}
+}
+
+@function remove-unit($value) {
+	@return math.div($value, ($value * 0 + 1));
+}
+
+@function get-rem($v, $size: 16px) {
+	$v: remove-unit($v) * 1px;
+	@return math.div($v, $size) * 1rem;
+}
+
+@function rem($v, $viewport: 16px) {
+	@if meta.type-of($v) == number {
+		@return get-rem($v, $viewport);
+	} @else if meta.type-of($v) == list {
+		$arr: ();
+		@each $val in $v {
+			$arr: list.append($arr, get-rem($val, $viewport));
+		}
+		@return $arr;
+	}
+}
+
+@function image($imgFilename: null) {
+	@if $imgFilename {
+		@return url('/assets/images/#{$imgFilename}');
+	}
+}
+
+// px to vw
+// e.g) 1. - padding: get-vw(12px); -> 12px / $base-size; -> padding: 0.00625vw;
+// e.g) 2. - padding: get-vw(12px, 1440px); -> 12px / 1440px" -> padding: 0.0083333333vw;
+// 이건 vw에서 사용하려고 만든 함수. 실제 사용안함.
+@function get-vw($v, $viewport: 1920px) {
+	$value: remove-unit($viewport) * 0.01 * 1px;
+	@return math.div($v, $value) * 1vw;
+}
+
+// px(Array,List) to vw
+// e.g) 1. - padding: vw(14px 12px); -> padding: 0.0072916667vw 0.00625vw;
+// e.g) 2. - padding: vw(14px 12px, 1440px); -> padding: 0.0097222222vw 0.0083333333vw
+@function vw($v, $viewport: 1920px) {
+	@if meta.type-of($v) == number {
+		@return get-vw($v, $viewport);
+	} @else if meta.type-of($v) == list {
+		$arr: ();
+		@each $val in $v {
+			$arr: list.append($arr, get-vw($val, $viewport));
+		}
+		@return $arr;
+	}
+}
+
+
+@function to-px($v, $to-viewport: 1440px, $viewport: 1920px) {
+	@return math.div($v, $viewport) * $to-viewport;
+}
+
+@function px($v, $to-viewport: 1440px, $viewport: 1920px) {
+
+	@if meta.type-of($to-viewport) == string {
+		$to-viewport: map.get(vars.$toPxArr, $to-viewport);
+	}
+
+	@if meta.type-of($v) == number {
+		@return to-px($v, $to-viewport, $viewport);
+	} @else if meta.type-of($v) == list {
+		$arr: ();
+		@each $val in $v {
+			$arr: list.append($arr, to-px($val, $to-viewport, $viewport));
+		}
+		@return $arr;
+	}	
+}
+
+@mixin pxs($property, $value, $target: null) {
+	
+	#{$property} : $value;
+
+	@if meta.type-of($target) == 'null' {
+		@include wide {
+			#{$property} : px($value, 1440px);
+		}
+		@include desktop {
+			#{$property} : px($value, 1024px);
+		}
+		@include tablet {
+			#{$property} : px($value, 767px);
+		}
+	}
+	@else if meta.type-of($target) == list {
+		@each $t in $target {
+			@media #{map.get($mediaQuires, $t)} {
+				#{$property} : px($value, map.get(var.$toPxArr, $t));
+			}
+		}
+	}
+}

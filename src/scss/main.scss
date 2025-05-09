@@ -1,0 +1,27 @@
+article.hero {
+	position: relative; 
+	padding-left: a.vw(268px);
+
+	.title { 
+		font-size: clamp(a.rem(24px), a.vw(24px), a.rem(24px, a.$tablet)); 
+		font-weight:600; font-family: 'Montserrat';
+		text-transform: capitalize; 
+	}
+	.slogan { 
+		margin-top: min(a.rem(50px),a.vw(50px)); font-size: min(174px, a.vw(174px)); 
+		font-weight:700; line-height: 1.1; font-family: 'Montserrat'; letter-spacing: -0.25px; 
+		text-transform: capitalize; 
+	}
+	.desc { 
+		margin-top: min(a.rem(120px),a.vw(120px)); font-size: clamp(a.rem(24px), a.vw(24px), a.rem(24px, a.$tablet)); 
+		font-weight:300; letter-spacing: -0.25px;  text-transform: uppercase;
+	}
+	.btn-area {
+		margin-top: min(a.rem(60px), a.vw(60px)); 
+		a {
+			display: flex; align-items: center; gap: 36px;
+			font-size: clamp(a.rem(30px), a.vw(30px), a.rem(30px, a.$tablet));font-weight: 700; font-family: 'Montserrat';
+			svg {width: clamp(a.rem(98px), a.vw(98px), a.rem(98px, a.$tablet)); height: clamp(a.rem(80px), a.vw(80px), a.rem(80px, a.$tablet));}
+		}
+	}
+}
