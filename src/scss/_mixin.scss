@@ -148,8 +148,21 @@ $mediaQuires: (
 	@else if meta.type-of($target) == list {
 		@each $t in $target {
 			@media #{map.get($mediaQuires, $t)} {
-				#{$property} : px($value, map.get(var.$toPxArr, $t));
+				#{$property} : px($value, map.get(vars.$toPxArr, $t));
 			}
 		}
 	}
+}
+
+
+@function remove-unit($value) {
+	@return math.div($value, ($value * 0 + 1));
+}
+
+@function clampx($v) {
+	@return clamp(rem($v), vw($v), rem($v, vars.$tablet));
+}
+
+@function minx($v) {
+	@return min(rem($v), vw($v));
 }

@@ -1,27 +1,81 @@
+@keyframes windmill {
+	50% {transform: rotate(180deg) scale(1.2)}
+	100% {transform: rotate(360deg) scale(1)}
+}
+@keyframes note {
+	0% {transform:rotate(24.89deg);}
+	50% {transform:translateY(-20px) rotate(28.89deg) scale(0.95);}
+	100% {transform: rotate(24.89deg);}
+}
+
 article.hero {
 	position: relative; 
-	padding-left: a.vw(268px);
+	padding-left: a.minx(268px);
 
 	.title { 
-		font-size: clamp(a.rem(24px), a.vw(24px), a.rem(24px, a.$tablet)); 
+		font-size: a.clampx(24px); 
 		font-weight:600; font-family: 'Montserrat';
 		text-transform: capitalize; 
 	}
 	.slogan { 
-		margin-top: min(a.rem(50px),a.vw(50px)); font-size: min(174px, a.vw(174px)); 
+		margin-top: a.clampx(50px); font-size: a.minx(174px); 
 		font-weight:700; line-height: 1.1; font-family: 'Montserrat'; letter-spacing: -0.25px; 
 		text-transform: capitalize; 
 	}
 	.desc { 
-		margin-top: min(a.rem(120px),a.vw(120px)); font-size: clamp(a.rem(24px), a.vw(24px), a.rem(24px, a.$tablet)); 
+		margin-top: a.minx(120px); font-size: a.clampx(24px); 
 		font-weight:300; letter-spacing: -0.25px;  text-transform: uppercase;
 	}
 	.btn-area {
-		margin-top: min(a.rem(60px), a.vw(60px)); 
+		margin-top: a.minx(60px); 
 		a {
 			display: flex; align-items: center; gap: 36px;
-			font-size: clamp(a.rem(30px), a.vw(30px), a.rem(30px, a.$tablet));font-weight: 700; font-family: 'Montserrat';
-			svg {width: clamp(a.rem(98px), a.vw(98px), a.rem(98px, a.$tablet)); height: clamp(a.rem(80px), a.vw(80px), a.rem(80px, a.$tablet));}
+			font-size: a.clampx(30px);font-weight: 700; font-family: 'Montserrat';
+			svg {
+				width: a.clampx(98px); height: a.clampx(80px);
+			}
+		}
+	}
+	.gradient1 {background: linear-gradient(to right, hsl(225, 100%, 75%), hsl(255, 100%, 96%)), no-repeat;}
+	.gradient2 {background: linear-gradient(to right, hsl(332, 60%, 90%), hsl(362, 60%, 70%)), no-repeat;}
+	.gradient3 {background: linear-gradient(to right, hsl(232, 100%, 82%), hsl(186 100% 80.57%),hsl(156, 100%, 100%)), no-repeat;}
+	.text-gradient {background-clip: text; -webkit-text-fill-color: transparent;}
+	
+	.icon1 {
+		position: absolute;
+		top: a.clampx(58px); left: a.minx(160px); 
+		width: a.minx(200px); height: a.minx(200px); 
+		background: a.image('img_windmill.png') 0/100% auto no-repeat;
+		animation: windmill 6s cubic-bezier(0.46, 0.03, 0.52, 0.96) infinite;
+	}
+	.icon2 {
+		position: absolute;z-index: -1;
+		top: a.minx(584px); left: a.minx(1325px); 
+		width: a.minx(224px); height: a.minx(382px); 
+		transform: rotate(24.89deg);
+		background: a.image('img_note.png') 0/100% auto no-repeat;
+		animation: note 8s ease infinite;
+	}
+
+	.line {
+		position: absolute;right:a.minx(160px);z-index: -1;
+		&:before {
+			position: absolute;top:50%;right:0;transform: translateY(-50%);content:'';
+			width:a.minx(502px);height:1px;background-color: rgba(#fff, 0.3);
+		}
+		&:after {
+			position: absolute;top:50%;right:0;transform: translateY(-50%);content:'';
+			width:a.minx(180px);height:a.clampx(8px);background-color:#fff;
+		}
+		&.line1 {top: a.minx(105px);}
+		&.line2 {top: a.minx(287px);}
+		&.line3 {top: a.minx(469px);}
+		&.line4 {top: a.minx(652px);
+			&:after {display: none;}
+		}
+		&.line5 {top: a.minx(902px);right:auto;left:a.minx(288px);;
+			&:before {right:auto;left:0;width:a.minx(921px);}
+			&:after {display: none;}
 		}
 	}
 }
