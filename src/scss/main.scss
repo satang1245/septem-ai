@@ -8,12 +8,32 @@
 	100% {transform: rotate(24.89deg);}
 }
 
+@keyframes font-bolder-animation {
+	0% {font-weight: 700;}
+	45% {font-weight: 250;}
+	100% {font-weight: 700;}
+}
+
+@keyframes marquee-brands {
+	100% {transform: translate3d(-100%, 0px, 0px);}
+}
+
+@keyframes wave-text {
+	0%, 100% { 
+		clip-path: polygon(0% calc(35% + var(--scroll-per, 0%)), 16% calc(34% + var(--scroll-per, 0%)), 33% calc(40% + var(--scroll-per, 0%)), 54% calc(50% + var(--scroll-per, 0%)), 70% calc(61% + var(--scroll-per, 0%)), 84% calc(59% + var(--scroll-per, 0%)), 100% calc(52% + var(--scroll-per, 0%)), 100% 100%, 0% 100%)
+	}
+	50% {
+		clip-path: polygon(0% calc(60% + var(--scroll-per, 0%)), 15% calc(55% + var(--scroll-per, 0%)), 34% calc(66% + var(--scroll-per, 0%)), 51% calc(57% + var(--scroll-per, 0%)), 67% calc(45% + var(--scroll-per, 0%)), 84% calc(35% + var(--scroll-per, 0%)), 100% calc(36% + var(--scroll-per, 0%)), 100% 100%, 0% 100%)
+	}
+}
+
+
 article.hero {
 	position: relative; 
 	padding-left: a.minx(268px);
 
 	.title { 
-		font-size: a.clampx(24px); 
+		font-size: a.clampx(24px);
 		font-weight:600; font-family: 'Montserrat';
 		text-transform: capitalize; 
 	}
@@ -21,15 +41,20 @@ article.hero {
 		margin-top: a.clampx(50px); font-size: a.minx(174px); 
 		font-weight:700; line-height: 1.1; font-family: 'Montserrat'; letter-spacing: -0.25px; 
 		text-transform: capitalize; 
+		.char {
+			animation: font-bolder-animation 4s ease-in-out infinite both;
+			animation-delay: var(--d, 0.4s);
+		}
 	}
-	.desc { 
+
+	.desc {
 		margin-top: a.minx(120px); font-size: a.clampx(24px); 
 		font-weight:300; letter-spacing: -0.25px;  text-transform: uppercase;
 	}
 	.btn-area {
 		margin-top: a.minx(60px); 
 		a {
-			display: flex; align-items: center; gap: 36px;
+			display: inline-flex; align-items: center; gap: 36px;
 			font-size: a.clampx(30px);font-weight: 700; font-family: 'Montserrat';
 			svg {
 				width: a.clampx(98px); height: a.clampx(80px);
@@ -73,9 +98,127 @@ article.hero {
 		&.line4 {top: a.minx(652px);
 			&:after {display: none;}
 		}
-		&.line5 {top: a.minx(902px);right:auto;left:a.minx(288px);;
+		&.line5 {top: a.minx(902px);right:auto;left:a.minx(288px);
 			&:before {right:auto;left:0;width:a.minx(921px);}
 			&:after {display: none;}
 		}
 	}
+}
+
+.our-projects {
+	margin-top: a.minx(300px);
+	&-head {
+		width: min(1920px, 100%); margin:0 auto; padding:0 min(130px, var(--side-pad));
+	}
+	h2.title {
+		position: relative; display: inline-block;font-weight:700; line-height: 1.15; font-family: "Montserrat"; font-size: a.clampx(110px);
+		&:after {position: absolute; left: 100%; top:0;content:'';width:a.clampx(30px);height:a.clampx(30px);border:a.clampx(8.4px) solid #fff; border-radius: 50%;}
+	}
+	&-body {
+		overflow: hidden; 
+		margin-top: 70px;
+		scroll-padding: 0 calc(50vw - ((min(1920px, 100%) / 2) - min(130px, var(--side-pad))));
+		scrollbar-width: none;
+		// scroll-behavior: smooth;
+		// &:not(.touched) { scroll-snap-type: x mandatory; }
+		&::-webkit-scrollbar { display: none }
+	}
+	&-wrap { 
+		width: fit-content;padding:0 calc(50vw - ((min(1920px, 100%) / 2) - min(130px, var(--side-pad))));
+	}
+	&-area {
+		display: flex; gap: a.minx(30px); padding:4px 0;
+	}
+	&-list {
+		scroll-snap-align: start;
+	}
+	&-item {
+		position: relative; display: block; width: a.clampx(555px); padding: a.clampx(50px) a.clampx(40px);
+		aspect-ratio: 1 / 1.27027027; border-radius: a.clampx(34px); overflow: hidden;
+		.client {font-size: a.clampx(16px); font-weight: 600; color:rgba(#fff, .7);}
+		.title {margin-top: a.clampx(8px);font-size: a.clampx(30px); font-weight: 800;}
+		img {position: absolute;top:50%;left:50%;transform:translate(-50%, -50%); max-width: 100%; height: auto;z-index: -1;}
+		// &:before {position: absolute;inset:0;content:'';border-radius: a.clampx(34px); overflow: hidden;}
+		// &.blur:before {backdrop-filter: blur(2px);transition: backdrop-filter .5s;}
+		&:hover img { transform:translate(-50%, -50%) scale(1.045, 1.045); transition: transform 7s cubic-bezier(0.4, 0, 0.2, 1);}
+	}
+}
+
+
+.brands {
+	overflow: hidden; 
+	@at-root .feature > & {margin-top: a.minx(140px); }
+	&-wrap {
+		position: relative; display: flex; flex-direction: column; gap: 10px; overflow: hidden;
+		&:before {
+			position: absolute;top:0;left:0;width:a.clampx(400px);height:100%;z-index: 1;content: '';
+			background: linear-gradient(90deg, rgba(14,16,15, 1), rgba(14,16,15, 0));
+		}
+		&:after {
+			position: absolute;top:0;right:0;width:a.clampx(400px);height:100%;z-index: 1;content: '';
+			background: linear-gradient(90deg, rgba(14,16,15, 0), rgba(14,16,15, 1));
+		}
+	}
+
+	&-list {
+		$base: &;
+
+		display: flex; gap: 10px;
+		&:nth-child(2) {margin-left: a.clampx(70px);}
+		&.ani-marquee > #{$base}-in {
+			animation: marquee-brands var(--brands-duration) linear infinite;
+		}
+		&.brands-list-one > #{$base}-in {
+			animation-direction: reverse !important;
+		}
+	}
+	&-list-in {
+		display: flex; gap: 10px; padding:0;
+	}
+	&-item {
+		flex:1 0 a.clampx(184px); width: a.clampx(195px); height: a.clampx(195px);
+		background-color: #171717;
+		img {display:block; width:100%; height:auto;aspect-ratio: 1 / 1.05978261;}
+	}
+}
+
+
+.creative {
+	position: relative; height: a.minx(2235px);
+	@at-root .feature > & {margin-top: a.minx(300px);}
+
+	svg {width: 100%;height: auto;}
+	.blind {position: absolute;text-indent: -999px;width: 1px;height: 1px;overflow: hidden;}
+
+	.title {
+		position: sticky; top: 50%; left:0; right:0; margin:0 auto; transform: translateY(-50%);
+		width: a.minx(1301px);
+		opacity: 0; transform: translateY(20px); transition: transform .25s, opacity .25s ease;
+		&.visible {opacity: 1; transform: none;}
+		.mask {
+			position: absolute;top:0;left:0;color:#FCE44E;
+			animation: wave-text 5s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+		}
+	}
+
+	.item {
+		position: absolute; left: 50%; transform: translateX(-50%);
+	}
+	.banks {
+		width: a.minx(600px); height: a.minx(600px); top: 0; margin-left: a.minx(78px);z-index: 1;
+		background: a.image('img_creative01.png') 0/100% auto no-repeat;
+	}
+	.e-commerce {
+		width: a.minx(636px); height: a.minx(600px); top: a.minx(1225px); margin-left: a.minx(512px);z-index: 1;
+		background: a.image('img_creative02.png') 0/100% auto no-repeat;
+	}
+	.platform {
+		width: a.minx(600px); height: a.minx(600px); top: a.minx(1635px); margin-left: a.minx(-290px);z-index: 1;
+		background: a.image('img_creative03.png') 0/100% auto no-repeat;
+	}
+	.line {
+		width: a.minx(811px);margin-left: a.minx(254.5px); top: a.minx(379px);
+		
+	}
+	
 }

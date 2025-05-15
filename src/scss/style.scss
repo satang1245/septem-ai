@@ -26,6 +26,8 @@ html {
 
 *, :before, :after {margin:0;padding:0;box-sizing: border-box;}
 
+*:focus-visible { outline: 2px dotted rgba(#fff, .8); }
+
 ul, 
 ol {list-style: none;}
 
@@ -86,7 +88,7 @@ h6 {
   &-inner {
     position: relative; z-index: 1;
     @include a.not-mobile {
-      display: flex; align-items: center; justify-content: center; height: 100%;
+      display: flex; align-items: center; justify-content: center; height: 100%; backdrop-filter: blur(8px) grayscale(1);
     }
   }
 }
